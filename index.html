@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f4f2" />
+    <meta name="robots" content="index, follow" />
+    <meta
+      name="description"
+      content="画像と見出しを入れるだけで、YouTube向けの1280×720サムネイルを作れる無料ツール。画像はブラウザ内だけで処理し、サーバーへ送信しません。"
+    />
+    <title>YouTube サムネイルメーカー | 画像を送信しない無料サムネ作成ツール</title>
+
+    <!-- 公開URLを変える場合は canonical / og:url / og:image の3箇所を書き換える -->
+    <link
+      rel="canonical"
+      href="https://youtube-thumbnail-maker.cuckoo-mailbox000.workers.dev/"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="YouTube サムネイルメーカー" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:title" content="YouTube サムネイルメーカー" />
+    <meta
+      property="og:description"
+      content="画像と見出しを入れるだけで、YouTube向けの1280×720サムネイルを作れる無料ツール。画像はブラウザ内だけで処理し、サーバーへ送信しません。"
+    />
+    <meta
+      property="og:url"
+      content="https://youtube-thumbnail-maker.cuckoo-mailbox000.workers.dev/"
+    />
+    <meta
+      property="og:image"
+      content="https://youtube-thumbnail-maker.cuckoo-mailbox000.workers.dev/ogp.png"
+    />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="720" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="app-header">
+        <h1 class="app-title">YouTube サムネイルメーカー</h1>
+        <p class="app-note">
+          画像と文字はブラウザ内だけで処理し、サーバーへ送信しません。
+        </p>
+      </header>
+
+      <main class="editor">
+        <div class="editor-column editor-column--main">
+          <section class="preview" aria-label="プレビュー">
+            <div class="preview-frame" id="preview-dropzone">
+              <canvas
+                id="preview-canvas"
+                width="1280"
+                height="720"
+                role="img"
+                aria-label="サムネイルのプレビュー"
+              ></canvas>
+            </div>
+            <p class="preview-caption">出力サイズ: 1280×720 PNG</p>
+          </section>
+
+          <details class="panel" open>
+            <summary class="panel-summary">背景画像</summary>
+            <div class="panel-body">
+              <div class="dropzone" id="image-dropzone">
+                <p class="dropzone-text">ここに画像をドラッグ＆ドロップ</p>
+                <label class="control-label" for="image-input">
+                  またはファイルを選択
+                </label>
+                <input
+                  id="image-input"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                />
+                <p class="control-hint" id="image-name">未選択</p>
+              </div>
+
+              <div class="control">
+                <label class="control-label" for="image-zoom-input">拡大率</label>
+                <input
+                  id="image-zoom-input"
+                  type="range"
+                  min="100"
+                  max="300"
+                  step="1"
+                  value="100"
+                />
+                <p class="control-hint" id="image-zoom-value">100%</p>
+              </div>
+
+              <div class="control">
+                <label class="control-label" for="image-offset-x-input">
+                  横位置
+                </label>
+                <input
+                  id="image-offset-x-input"
+                  type="range"
+                  min="-50"
+                  max="50"
+                  step="1"
+                  value="0"
+                />
+                <p class="control-hint" id="image-offset-x-value">0%</p>
+              </div>
+
+              <div class="control">
+                <label class="control-label" for="image-offset-y-input">
+                  縦位置
+                </label>
+                <input
+                  id="image-offset-y-input"
+                  type="range"
+                  min="-50"
+                  max="50"
+                  step="1"
+                  value="0"
+                />
+                <p class="control-hint" id="image-offset-y-value">0%</p>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="editor-column editor-column--side">
+          <details class="panel" open>
+            <summary class="panel-summary">文字</summary>
+            <div class="panel-body">
+              <div class="control">
+                <label class="control-label" for="line1-input">
+                  1行目<span class="color-chip color-chip--white">白＋黒縁</span>
+                </label>
+                <input
+                  id="line1-input"
+                  type="text"
+                  maxlength="30"
+                  placeholder="例: あのサムネイルがだれでも作れる!?"
+                />
+              </div>
+
+              <div class="control">
+                <label class="control-label" for="line2-lead-input">
+                  2行目 前半<span class="color-chip color-chip--yellow">黄＋黒縁</span>
+                </label>
+                <input
+                  id="line2-lead-input"
+                  type="text"
+                  maxlength="30"
+                  placeholder="例: Youtube"
+                />
+              </div>
+
+              <div class="control">
+                <label class="control-label" for="line2-tail-input">
+                  2行目 後半<span class="color-chip color-chip--red">赤＋黒縁</span>
+                </label>
+                <input
+                  id="line2-tail-input"
+                  type="text"
+                  maxlength="30"
+                  placeholder="例: サムネイルメーカー"
+                />
+              </div>
+
+              <div class="control">
+                <label class="control-label" for="line1-size-input">
+                  1行目の文字サイズ
+                </label>
+                <input
+                  id="line1-size-input"
+                  type="range"
+                  min="24"
+                  max="200"
+                  step="1"
+                  value="75"
+                />
+                <p class="control-hint" id="line1-size-value">75px</p>
+              </div>
+
+              <div class="control">
+                <label class="control-label" for="line2-size-input">
+                  2行目の文字サイズ
+                </label>
+                <input
+                  id="line2-size-input"
+                  type="range"
+                  min="24"
+                  max="200"
+                  step="1"
+                  value="93"
+                />
+                <p class="control-hint" id="line2-size-value">93px</p>
+              </div>
+
+              <div class="control">
+                <label class="control-label" for="height-rate-input">
+                  縦の画面占有率
+                </label>
+                <input
+                  id="height-rate-input"
+                  type="range"
+                  min="30"
+                  max="45"
+                  step="1"
+                  value="40"
+                />
+                <p class="control-hint" id="height-rate-value">40%</p>
+              </div>
+
+              <div class="control">
+                <label class="control-label" for="stroke-input">縁取りの太さ</label>
+                <input
+                  id="stroke-input"
+                  type="range"
+                  min="10"
+                  max="30"
+                  step="1"
+                  value="18"
+                />
+                <p class="control-hint" id="stroke-value">18%</p>
+              </div>
+            </div>
+          </details>
+
+          <div class="actions">
+            <button id="export-button" type="button" class="export-button" disabled>
+              PNGをダウンロード
+            </button>
+            <p
+              id="error-message"
+              class="error-message"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </div>
+        </div>
+      </main>
+
+      <footer class="app-footer">
+        <nav class="footer-links" aria-label="サイト情報">
+          <a href="https://vrceve.com/" rel="noopener noreferrer" target="_blank"
+            >VRChatイベントカレンダー</a
+          >
+          <a
+            href="https://www.amazon.jp/hz/wishlist/ls/39BBOLQLKSCQA"
+            rel="noopener noreferrer"
+            target="_blank"
+            >このツールを支援する</a
+          >
+          <a href="/privacy.html">プライバシーポリシー</a>
+          <a href="/terms.html">利用規約</a>
+          <a
+            href="https://github.com/cuckoo000/youtube-thumbnail-maker"
+            rel="noopener noreferrer"
+            target="_blank"
+            >ソースコード</a
+          >
+        </nav>
+        <p class="footer-note">
+          読み込んだ画像と入力した文字は端末外へ送信されません。
+        </p>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+
+</html>

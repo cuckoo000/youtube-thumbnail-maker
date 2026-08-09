@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://youtube-thumbnail-maker.cuckoo-mailbox000.workers.dev/sitemap.xml

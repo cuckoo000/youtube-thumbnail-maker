@@ -1,0 +1,71 @@
+:root {
+  --page-bg: #f4f4f2;
+  --page-fg: #111111;
+  --page-muted: #555550;
+  --page-accent: #b35300;
+  --page-border: #d5d5d0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 2.5rem 1.25rem 4rem;
+  background: var(--page-bg);
+  color: var(--page-fg);
+  font-family: 'BIZ UDPGothic', 'Yu Gothic', 'Hiragino Kaku Gothic ProN', sans-serif;
+  line-height: 1.85;
+}
+
+main {
+  max-width: 46rem;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin: 0 0 4px;
+}
+
+h2 {
+  font-size: 1.05rem;
+  margin: 2.25rem 0 0.6rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--page-border);
+}
+
+p,
+li {
+  font-size: 0.9rem;
+}
+
+ul {
+  padding-left: 1.25rem;
+}
+
+a {
+  color: var(--page-accent);
+}
+
+.updated {
+  color: var(--page-muted);
+  font-size: 0.8rem;
+  margin: 0 0 2rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 3rem;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid var(--page-border);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--page-fg);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  border-color: var(--page-accent);
+}
