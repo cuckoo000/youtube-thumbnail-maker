@@ -30,7 +30,7 @@ youtube-thumbnail-maker/
 ├── public/
 │   ├── .htaccess
 │   ├── favicon.svg
-│   ├── ogp.png
+│   ├── ogp.jpg
 │   ├── pages.css
 │   ├── privacy.html
 │   └── terms.html
