@@ -1,23 +1,3 @@
-# tools.vrceve.com ドキュメントルートの共通配信設定（正本）。
-# 各ツールは自分のディレクトリの .htaccess で必要な差分だけを上書きする。
-
-<IfModule mod_headers.c>
-  Header always set X-Content-Type-Options "nosniff"
-  Header always set Referrer-Policy "no-referrer"
-  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
-  Header always set Cross-Origin-Opener-Policy "same-origin"
-  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'"
-</IfModule>
-
-<IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml
-</IfModule>
-
-# FTPデプロイが残す .ftp-deploy-*-state.json などのドットファイルを公開しない。
-<IfModule mod_authz_core.c>
-  <FilesMatch "^\.">
-    Require all denied
-  </FilesMatch>
-</IfModule>
-
+﻿# tools.vrceve.com ドキュメントルートの共通配信設定（正本）。
+# 500切り分け中: 最小構成。
 Options -Indexes
