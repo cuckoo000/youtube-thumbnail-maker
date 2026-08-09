@@ -30,6 +30,7 @@ jobs:
       - name: Build
         run: npm run build
 
+      # FTP_SERVER_DIR はホストルートの絶対パス。末尾スラッシュ必須。
       # 同期先を /thumbnail/ に限定し、他ツールのディレクトリへ影響させない。
       - name: Deploy app
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -38,7 +39,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
-          server-dir: /vrceve.com/public_html/tools.vrceve.com/thumbnail/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}thumbnail/
           dangerous-clean-slate: false
           state-name: .ftp-deploy-sync-state.json
 
@@ -50,6 +51,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./deploy/host-root/
-          server-dir: /vrceve.com/public_html/tools.vrceve.com/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
           dangerous-clean-slate: false
           state-name: .ftp-deploy-host-root-state.json
