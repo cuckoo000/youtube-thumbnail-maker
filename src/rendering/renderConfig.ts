@@ -15,7 +15,7 @@ export const RENDER_CONFIG = {
   maxFontSize: 200,
   /** 既定の文字サイズ(px)。 */
   defaultFirstLineFontSize: 75,
-  defaultSecondLineFontSize: 93,
+  defaultSecondLineFontSize: 135,
   /** 行高の倍率。 */
   lineHeightRatio: 1.05,
   /**
@@ -24,12 +24,12 @@ export const RENDER_CONFIG = {
    */
   minHeightRate: 0.3,
   maxHeightRate: 0.45,
-  defaultHeightRate: 0.4,
+  defaultHeightRate: 0.42,
   /** 文字領域の安全余白(px)。下端は0で画面最下部へ張り付ける。 */
   safeHorizontalMargin: 64,
   safeBottomMargin: 0,
   /** 縁取り幅のフォントサイズ比と、その実寸の下限・上限(px)。 */
-  defaultStrokeRatio: 0.18,
+  defaultStrokeRatio: 0.15,
   minStrokeRatio: 0.1,
   maxStrokeRatio: 0.3,
   minStrokeWidth: 6,

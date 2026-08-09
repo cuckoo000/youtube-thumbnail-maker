@@ -11,8 +11,8 @@ export function createInitialState(): EditorState {
     },
     headline: {
       firstLine: 'あのサムネイルがだれでも作れる!?',
-      secondLineLead: '例の',
-      secondLineTail: 'サムネメーカー',
+      secondLineLead: '例のサムネ',
+      secondLineTail: 'メーカー',
     },
     fontSizes: {
       firstLine: RENDER_CONFIG.defaultFirstLineFontSize,
