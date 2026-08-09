@@ -53,7 +53,13 @@ export function startEditor(): void {
   const imageName = requireElement('image-name', HTMLParagraphElement)
   const exportButton = requireElement('export-button', HTMLButtonElement)
   const shareButton = requireElement('share-button', HTMLButtonElement)
-  const shareHint = requireElement('share-hint', HTMLParagraphElement)
+  const shareDialog = requireElement('share-dialog', HTMLDialogElement)
+  const shareDialogMessage = requireElement(
+    'share-dialog-message',
+    HTMLParagraphElement,
+  )
+  const shareDialogOpen = requireElement('share-dialog-open', HTMLButtonElement)
+  const shareDialogClose = requireElement('share-dialog-close', HTMLButtonElement)
   const errorMessage = requireElement('error-message', HTMLParagraphElement)
 
   const headlineInputs: ReadonlyArray<[keyof HeadlineInput, HTMLInputElement]> = [
@@ -259,19 +265,23 @@ export function startEditor(): void {
     showError(null)
 
     if (!supportsFileShare()) {
-      // クリップボードへの書き込みとwindow.openは、どちらもクリック直後に同期で開始する。
+      // クリップボードへの書き込みはクリックと同一タスクで開始する必要がある。
       const copied = copyPngToClipboard(canvas)
-      window.open(buildIntentUrl(), '_blank', 'noopener,noreferrer')
-      shareHint.textContent = 'Xの投稿画面を開きました。'
+      shareDialogMessage.textContent = '画像をクリップボードへコピーしています…'
+      shareDialogMessage.classList.remove('share-dialog-message--failed')
+      shareDialog.showModal()
       void copied.then((succeeded) => {
-        shareHint.textContent = succeeded
-          ? '画像をクリップボードへコピーしました。投稿画面で貼り付け（Ctrl+V）してください。'
-          : 'Xの投稿画面を開きました。PNGをダウンロードして手動で添付してください。'
+        shareDialogMessage.textContent = succeeded
+          ? '画像をクリップボードへコピーしました。'
+          : 'クリップボードへコピーできませんでした。PNGをダウンロードして手動で添付してください。'
+        shareDialogMessage.classList.toggle(
+          'share-dialog-message--failed',
+          !succeeded,
+        )
       })
       return
     }
 
-    shareHint.textContent = ''
     void shareThumbnailFile(canvas).then((result) => {
       if (result.ok || result.reason === 'canceled') {
         return
@@ -281,6 +291,15 @@ export function startEditor(): void {
         message: '共有できませんでした。PNGをダウンロードしてから投稿してください',
       })
     })
+  })
+
+  shareDialogOpen.addEventListener('click', () => {
+    window.open(buildIntentUrl(), '_blank', 'noopener,noreferrer')
+    shareDialog.close()
+  })
+
+  shareDialogClose.addEventListener('click', () => {
+    shareDialog.close()
   })
 
   window.addEventListener('pagehide', () => {

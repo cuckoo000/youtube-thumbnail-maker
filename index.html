@@ -236,18 +236,52 @@
               Xでシェア
             </button>
             <p
-              id="share-hint"
-              class="share-hint"
-              role="status"
-              aria-live="polite"
-            ></p>
-            <p
               id="error-message"
               class="error-message"
               role="status"
               aria-live="polite"
             ></p>
           </div>
+
+          <dialog
+            id="share-dialog"
+            class="share-dialog"
+            aria-labelledby="share-dialog-title"
+          >
+            <h2 id="share-dialog-title" class="share-dialog-title">
+              Xでシェアする
+            </h2>
+            <p
+              id="share-dialog-message"
+              class="share-dialog-message"
+              role="status"
+              aria-live="polite"
+            >
+              画像をクリップボードへコピーしています…
+            </p>
+            <ol class="share-dialog-steps">
+              <li>下のボタンでXの投稿画面を開く</li>
+              <li>投稿欄で貼り付ける（Ctrl+V / ⌘V）</li>
+              <li>そのまま投稿する</li>
+            </ol>
+            <div class="share-dialog-actions">
+              <button
+                id="share-dialog-open"
+                type="button"
+                class="export-button"
+                autofocus
+              >
+                Xの投稿画面を開く
+              </button>
+              <button
+                id="share-dialog-close"
+                type="button"
+                class="share-button"
+              >
+                閉じる
+              </button>
+            </div>
+          </dialog>
         </div>
       </main>
 
