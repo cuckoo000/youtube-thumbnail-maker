@@ -259,6 +259,30 @@ body {
   cursor: not-allowed;
 }
 
+.share-button {
+  padding: 12px;
+  font: inherit;
+  font-weight: 700;
+  color: #1a1a18;
+  background: #ffffff;
+  border: 1px solid #1a1a18;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.share-button:disabled {
+  color: #7a7a74;
+  background: #f0f0ec;
+  border-color: #bdbdb8;
+  cursor: not-allowed;
+}
+
+.share-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #555550;
+}
+
 .error-message {
   margin: 0;
   min-height: 1.2em;

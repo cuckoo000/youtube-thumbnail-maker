@@ -2,6 +2,11 @@ import { loadImageFile, releaseImage } from '../image/imageLoader.ts'
 import { createMeasureText, renderThumbnail } from '../rendering/canvasRenderer.ts'
 import { exportPng } from '../rendering/exporter.ts'
 import { createTextLayout } from '../rendering/textLayout.ts'
+import {
+  buildIntentUrl,
+  shareThumbnailFile,
+  supportsFileShare,
+} from '../share/shareToX.ts'
 import type {
   EditorError,
   FontSizes,
@@ -46,6 +51,8 @@ export function startEditor(): void {
   const imageInput = requireElement('image-input', HTMLInputElement)
   const imageName = requireElement('image-name', HTMLParagraphElement)
   const exportButton = requireElement('export-button', HTMLButtonElement)
+  const shareButton = requireElement('share-button', HTMLButtonElement)
+  const shareHint = requireElement('share-hint', HTMLParagraphElement)
   const errorMessage = requireElement('error-message', HTMLParagraphElement)
 
   const headlineInputs: ReadonlyArray<[keyof HeadlineInput, HTMLInputElement]> = [
@@ -103,6 +110,7 @@ export function startEditor(): void {
       layout,
     })
     exportButton.disabled = !exportable
+    shareButton.disabled = !exportable
   }
 
   const requestDraw = (): void => {
@@ -243,6 +251,29 @@ export function startEditor(): void {
       if (!succeeded) {
         showError({ code: 'export-failed', message: '画像を書き出せませんでした' })
       }
+    })
+  })
+
+  shareButton.addEventListener('click', () => {
+    showError(null)
+
+    if (!supportsFileShare()) {
+      // PNG生成を待つとポップアップブロックに掛かるため、クリック直後に同期で開く。
+      window.open(buildIntentUrl(), '_blank', 'noopener,noreferrer')
+      shareHint.textContent =
+        'Xの投稿画面を開きました。PNGをダウンロードして手動で添付してください。'
+      return
+    }
+
+    shareHint.textContent = ''
+    void shareThumbnailFile(canvas).then((result) => {
+      if (result.ok || result.reason === 'canceled') {
+        return
+      }
+      showError({
+        code: 'share-failed',
+        message: '共有できませんでした。PNGをダウンロードしてから投稿してください',
+      })
     })
   })
 

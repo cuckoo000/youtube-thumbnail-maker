@@ -51,6 +51,7 @@ export type EditorErrorCode =
   | 'too-many-pixels'
   | 'decode-failed'
   | 'export-failed'
+  | 'share-failed'
 
 export interface EditorError {
   code: EditorErrorCode

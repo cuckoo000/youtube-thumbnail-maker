@@ -120,6 +120,7 @@ interface TextLayout {
 | Image Loader | ファイル検証、デコード、前画像の解放 | `File` → `LoadedImage` || Text Layout | 文字分割、行幅と行高、縁幅を計算する | 入力欄・文字サイズ・計測関数 → `TextLayout` |
 | Canvas Renderer | 背景と見出しを決められた順で描画する | 状態・レイアウト → Canvas |
 | Exporter | CanvasをPNG Blobへ変換して保存する | Canvas → `thumbnail.png` |
+| Share | 生成PNGと定型文をXへ渡す | Canvas → 共有シートまたはWeb Intent |
 
 UIは描画計算を直接持たない。Text LayoutはCanvasの `measureText` を注入してテスト可能にする。
 
@@ -163,6 +164,14 @@ sequenceDiagram
 3. `canvas.toBlob` を `image/png` で実行する。
 4. 一時Object URLから `thumbnail.png` をダウンロードする。
 5. クリック後に一時Object URLを解放する。
+
+### Xへのシェア
+
+1. クリック直後に `navigator.canShare({ files })` を同期で判定する。PNG生成を待つとポップアップブロックに掛かるため。
+2. 対応環境では PNG Blob を `File` へ包み、本文付きで `navigator.share` を呼ぶ。
+3. 非対応環境では `https://x.com/intent/tweet` を新規タブで開く。Web Intentは画像添付を扱えないため、画像は手動添付を案内する。
+4. いずれの経路でもハッシュタグとツールURLを本文へ含める。
+5. `AbortError`（ユーザーのキャンセル）はエラーとして扱わない。
 
 ## 描画仕様
 

@@ -46,6 +46,8 @@ youtube-thumbnail-maker/
 │   │   ├── exporter.ts
 │   │   ├── renderConfig.ts
 │   │   └── textLayout.ts
+│   ├── share/
+│   │   └── shareToX.ts
 │   ├── types/
 │   │   └── editor.ts
 │   ├── main.ts
@@ -53,6 +55,7 @@ youtube-thumbnail-maker/
 ├── tests/
 │   └── unit/
 │       ├── imagePlacement.test.ts
+│       ├── shareToX.test.ts
 │       └── textLayout.test.ts
 ├── .gitignore
 ├── LICENSE
