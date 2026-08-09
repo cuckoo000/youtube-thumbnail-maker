@@ -26,11 +26,13 @@ export function buildIntentUrl(): string {
 }
 
 /**
- * 画像付き共有に対応しているかを、PNG生成を待たずに同期的に判定する。
- * 非対応時のwindow.openをクリック直後に実行し、ポップアップブロックを避けるため。
+ * 画像付き共有をOSの共有シートへ任せるかを判定する。
+ * デスクトップの共有シートにはXが並ばないため、モバイルに限って採用する。
+ * PNG生成を待たず同期で返し、非採用時のwindow.openをポップアップブロックから守る。
  */
 export function supportsFileShare(): boolean {
   if (
+    !isMobileLike() ||
     typeof navigator.share !== 'function' ||
     typeof navigator.canShare !== 'function'
   ) {
@@ -38,6 +40,39 @@ export function supportsFileShare(): boolean {
   }
   const probe = new File([], FILE_NAME, { type: 'image/png' })
   return navigator.canShare({ files: [probe] })
+}
+
+function isMobileLike(): boolean {
+  const uaData = (
+    navigator as Navigator & { userAgentData?: { mobile: boolean } }
+  ).userAgentData
+  if (uaData !== undefined) {
+    return uaData.mobile
+  }
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+}
+
+/**
+ * 生成PNGをクリップボードへコピーする。
+ * BlobをPromiseのまま ClipboardItem へ渡し、write() をクリック同一タスクで開始する。
+ * await を挙げてから呼ぶとユーザー操作の文脈を失い、書き込みが拒否される。
+ */
+export function copyPngToClipboard(canvas: HTMLCanvasElement): Promise<boolean> {
+  if (typeof ClipboardItem !== 'function' || navigator.clipboard === undefined) {
+    return Promise.resolve(false)
+  }
+
+  try {
+    const png = canvasToPngBlob(canvas).then((blob) =>
+      blob === null ? Promise.reject(new Error('PNGを生成できません')) : blob,
+    )
+    return navigator.clipboard.write([new ClipboardItem({ 'image/png': png })]).then(
+      () => true,
+      () => false,
+    )
+  } catch {
+    return Promise.resolve(false)
+  }
 }
 
 /** CanvasのPNGを共有シートへ渡す。supportsFileShare() が true のときだけ呼ぶ。 */

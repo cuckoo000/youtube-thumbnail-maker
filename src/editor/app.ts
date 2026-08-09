@@ -4,6 +4,7 @@ import { exportPng } from '../rendering/exporter.ts'
 import { createTextLayout } from '../rendering/textLayout.ts'
 import {
   buildIntentUrl,
+  copyPngToClipboard,
   shareThumbnailFile,
   supportsFileShare,
 } from '../share/shareToX.ts'
@@ -258,10 +259,15 @@ export function startEditor(): void {
     showError(null)
 
     if (!supportsFileShare()) {
-      // PNG生成を待つとポップアップブロックに掛かるため、クリック直後に同期で開く。
+      // クリップボードへの書き込みとwindow.openは、どちらもクリック直後に同期で開始する。
+      const copied = copyPngToClipboard(canvas)
       window.open(buildIntentUrl(), '_blank', 'noopener,noreferrer')
-      shareHint.textContent =
-        'Xの投稿画面を開きました。PNGをダウンロードして手動で添付してください。'
+      shareHint.textContent = 'Xの投稿画面を開きました。'
+      void copied.then((succeeded) => {
+        shareHint.textContent = succeeded
+          ? '画像をクリップボードへコピーしました。投稿画面で貼り付け（Ctrl+V）してください。'
+          : 'Xの投稿画面を開きました。PNGをダウンロードして手動で添付してください。'
+      })
       return
     }
 

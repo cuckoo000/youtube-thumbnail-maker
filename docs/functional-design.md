@@ -167,11 +167,18 @@ sequenceDiagram
 
 ### Xへのシェア
 
-1. クリック直後に `navigator.canShare({ files })` を同期で判定する。PNG生成を待つとポップアップブロックに掛かるため。
-2. 対応環境では PNG Blob を `File` へ包み、本文付きで `navigator.share` を呼ぶ。
-3. 非対応環境では `https://x.com/intent/tweet` を新規タブで開く。Web Intentは画像添付を扱えないため、画像は手動添付を案内する。
+1. クリック直後に経路を同期で判定する。PNG生成を待つとポップアップブロックとクリップボード拒否に掛かるため。
+2. モバイルかつ `navigator.canShare({ files })` が true なら、PNG を `File` へ包んで共有シートへ渡す。
+3. それ以外では、生成PNGをクリップボードへコピーしつつ `https://x.com/intent/tweet` を新規タブで開く。
 4. いずれの経路でもハッシュタグとツールURLを本文へ含める。
 5. `AbortError`（ユーザーのキャンセル）はエラーとして扱わない。
+
+デスクトップで共有シートを使わないのは、Windows などの OS 共有シートに X が並ばず、
+ボタンの名前と結果が一致しないため。`navigator.canShare` だけではこれを区別できない。
+
+Web Intent は画像添付を扱えないため、画像はクリップボード経由で渡す。
+`ClipboardItem` へ Blob を Promise のまま渡し、`clipboard.write()` 自体はクリックと同一タスクで呼ぶ。
+コピーに失敗した場合は、PNGをダウンロードして手動で添付する旨を案内する。
 
 ## 描画仕様
 
