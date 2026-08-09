@@ -3,9 +3,10 @@
 # ここではアプリ固有の CSP とアセットキャッシュだけを上書きする。
 
 <IfModule mod_headers.c>
-  # connect-src 'none' が「入力画像・文字列を外部送信しない」設計の担保。緩めない。
-  # 外部スクリプト（広告・解析）を導入する場合のみ script-src / connect-src を見直す。
-  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'none'"
+  # AdSense を配信するため、外部スクリプトと通信を許可している。
+  # 個別ホストの許可リストは Google 側の国別ドメインが動的に変わるため維持できず、https: で許可する。
+  # 入力画像・文字列を送信しない保証はブラウザ側ではなくアプリ実装で担保する（src/ 配下に送信処理を書かない）。
+  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https:; frame-src https:"
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "no-referrer"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"

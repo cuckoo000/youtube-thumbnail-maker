@@ -107,7 +107,7 @@ font-family: "Arial Black", "Noto Sans JP", "Yu Gothic", "Hiragino Kaku Gothic P
 - ユーザー入力、ファイル名、Blob URLをログへ出さない
 - Blob URLを使用後に `URL.revokeObjectURL` で破棄する
 - `ImageBitmap` を差し替え時と画面破棄時に閉じる
-- 本番配信ではCSPを設定し、`connect-src 'none'` を出発点にする
+- 本番配信ではCSPを設定する。AdSense 導入に伴い `script-src` / `connect-src` / `frame-src` は `https:` を許可している（`docs/deployment.md`）
 - npm lockfileをコミットし、依存更新時に監査とビルドを行う
 
 ファイルのMIME型は信頼境界として扱わず、ブラウザが画像としてデコードできることを確認する。破損ファイルや巨大ファイルでタブを停止させないことを優先する。

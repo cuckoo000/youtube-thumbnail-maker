@@ -197,6 +197,24 @@ body {
   border-top: 1px solid #d5d5d0;
 }
 
+.ad-slot {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid #d5d5d0;
+}
+
+.ad-slot-label {
+  margin: 0 0 6px;
+  font-size: 0.7rem;
+  color: #7a7a74;
+}
+
+/* AdSense はブロック要素であることを前提に幅を測るため、display と幅を固定で与える。 */
+.adsbygoogle {
+  display: block;
+  width: 100%;
+}
+
 .footer-links {
   display: flex;
   flex-wrap: wrap;
