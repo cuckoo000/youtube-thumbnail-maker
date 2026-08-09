@@ -18,9 +18,15 @@ body {
   margin: 0;
 }
 
+.page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
 #app {
   min-height: 100svh;
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 24px 20px 48px;
 }
@@ -224,6 +230,42 @@ body {
 /* 広告が配信されなかったときに「広告」ラベルと空白だけが残らないようにする。 */
 .ad-slot:has(ins[data-ad-status='unfilled']) {
   display: none;
+}
+
+/*
+ * サイドレール広告。position: fixed で操作欄へ重ねると、クリックがスライダーへ届かなくなる
+ * （2026-08-09 に自動広告で発生）。グリッドの実カラムとして置き、追従は sticky で行う。
+ */
+.ad-rail {
+  display: none;
+}
+
+.ad-rail-unit {
+  display: inline-block;
+  width: 160px;
+  height: 600px;
+}
+
+/* 1200px のコンテンツ幅と 160px のレール2本、その間隔を確保できる幅でのみ表示する。 */
+@media (min-width: 1600px) {
+  .page:has(.ad-rail:not([hidden])) {
+    grid-template-columns: 160px minmax(0, 1200px) 160px;
+    gap: 24px;
+    justify-content: center;
+  }
+
+  .ad-rail:not([hidden]) {
+    display: block;
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    width: 160px;
+    padding-top: 24px;
+  }
+
+  .ad-rail:has(ins[data-ad-status='unfilled']) {
+    visibility: hidden;
+  }
 }
 
 .footer-links {

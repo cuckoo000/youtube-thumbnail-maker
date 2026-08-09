@@ -43,7 +43,17 @@
     ></script>
   </head>
   <body>
-    <div id="app">
+    <div class="page">
+      <!-- 広告ユニット: tools-thumbnail-rail-left。1600px未満では CSS で非表示にし、push もしない（src/ads.ts）。 -->
+      <aside class="ad-rail ad-rail--left" id="ad-rail-left" aria-label="広告" hidden>
+        <ins
+          class="adsbygoogle ad-rail-unit"
+          data-ad-client="ca-pub-9301511356340376"
+          data-ad-slot="9926619143"
+        ></ins>
+      </aside>
+
+      <div id="app">
       <header class="app-header">
         <h1 class="app-title">例のサムネメーカー</h1>
         <p class="app-tagline">YouTubeでよく見る、あのサムネ。</p>
@@ -322,6 +332,16 @@
           読み込んだ画像と入力した文字は端末外へ送信されません。
         </p>
       </footer>
+      </div>
+
+      <!-- 広告ユニット: tools-thumbnail-rail-right。1600px未満では CSS で非表示にし、push もしない（src/ads.ts）。 -->
+      <aside class="ad-rail ad-rail--right" id="ad-rail-right" aria-label="広告" hidden>
+        <ins
+          class="adsbygoogle ad-rail-unit"
+          data-ad-client="ca-pub-9301511356340376"
+          data-ad-slot="2040390265"
+        ></ins>
+      </aside>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
