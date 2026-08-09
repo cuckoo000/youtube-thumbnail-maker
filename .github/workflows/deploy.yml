@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
-          server-dir: /tools.vrceve.com/public_html/thumbnail/
+          server-dir: /vrceve.com/public_html/tools.vrceve.com/thumbnail/
           dangerous-clean-slate: false
           state-name: .ftp-deploy-sync-state.json
 
@@ -50,6 +50,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./deploy/host-root/
-          server-dir: /tools.vrceve.com/public_html/
+          server-dir: /vrceve.com/public_html/tools.vrceve.com/
           dangerous-clean-slate: false
           state-name: .ftp-deploy-host-root-state.json
