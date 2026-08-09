@@ -129,7 +129,8 @@ font-family: "Arial Black", "Noto Sans JP", "Yu Gothic", "Hiragino Kaku Gothic P
 ## 静的配信
 
 - `npm run build` の `dist/` を静的ホスティングへ配置する
-- ホスティングサービスは公開前に料金、転送量、ビルド上限、規約を比較して決める
+- ホスティングは Xserver の `tools.vrceve.com/thumbnail/`（詳細は `docs/deployment.md`）
+- サブディレクトリ配信のため `vite.config.ts` の `base` を公開パスと一致させる
 - ハッシュ付き資産は長期キャッシュ、`index.html` は短いキャッシュを基本とする
 - Service Workerとオフライン対応はMVPへ含めない
 

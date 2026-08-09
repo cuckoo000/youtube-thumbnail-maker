@@ -13,7 +13,14 @@
 youtube-thumbnail-maker/
 ├── .github/
 │   └── workflows/
-│       └── ci.yml
+│       ├── ci.yml
+│       └── deploy.yml
+├── deploy/
+│   └── host-root/
+│       ├── .htaccess
+│       ├── index.html
+│       ├── robots.txt
+│       └── sitemap.xml
 ├── docs/
 │   ├── architecture.md
 │   ├── development-guidelines.md
@@ -21,12 +28,11 @@ youtube-thumbnail-maker/
 │   ├── product-requirements.md
 │   └── repository-structure.md
 ├── public/
-│   ├── _headers
+│   ├── .htaccess
 │   ├── favicon.svg
+│   ├── ogp.png
 │   ├── pages.css
 │   ├── privacy.html
-│   ├── robots.txt
-│   ├── sitemap.xml
 │   └── terms.html
 ├── src/
 │   ├── editor/
@@ -54,7 +60,8 @@ youtube-thumbnail-maker/
 ├── index.html
 ├── package-lock.json
 ├── package.json
-└── tsconfig.json
+├── tsconfig.json
+└── vite.config.ts
 ```
 
 `node_modules/` と `dist/` はローカルに生成されるが、構造の正本に含めずGit管理しない。
@@ -99,9 +106,17 @@ CSSが大きくなった場合だけ、コンポーネント単位ではなく�
 
 ### `public/`
 
-- ビルドを介さずそのまま配信するファイルを置く
-- 配信ヘッダ定義（`_headers`）、ポリシーページ、クローラー向けファイル、アイコンが対象
+- ビルドを介さずそのまま `dist/` へコピーされるファイルを置く
+- アプリ固有の配信ヘッダ（`.htaccess`）、ポリシーページ、アイコン、OGP画像が対象
+- Vite の `base` が適用されないため、HTML内の参照は必ず相対パスで書く
 - `src/` からimportするアセットはここに置かない
+
+### `deploy/host-root/`
+
+- `tools.vrceve.com` のドキュメントルートへ配置するファイルを置く
+- ツール一覧ページ、共通ヘッダ、`robots.txt`、`sitemap.xml` が対象
+- ホスト単位でしか効かないファイルのため、`dist/` へは含めない
+- 本アプリ固有の内容は置かず、`public/` へ分ける
 
 ### `docs/`
 

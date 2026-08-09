@@ -1,0 +1,36 @@
+# /thumbnail/ 固有の配信設定（本アプリの正本）。
+# 共通ヘッダは tools.vrceve.com ドキュメントルートの .htaccess が正本。
+# ここではアプリ固有の CSP とアセットキャッシュだけを上書きする。
+
+<IfModule mod_headers.c>
+  # connect-src 'none' が「入力画像・文字列を外部送信しない」設計の担保。緩めない。
+  # 外部スクリプト（広告・解析）を導入する場合のみ script-src / connect-src を見直す。
+  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'none'"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "no-referrer"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Cross-Origin-Resource-Policy "same-origin"
+</IfModule>
+
+# ファイル名にハッシュが付くビルド成果物のみ長期キャッシュする。
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|svg|woff2)$">
+    <If "%{REQUEST_URI} =~ m#^/thumbnail/assets/#">
+      Header always set Cache-Control "public, max-age=31536000, immutable"
+    </If>
+  </FilesMatch>
+</IfModule>
+
+# index.html はキャッシュさせず、デプロイ直後の参照を確実にする。
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header always set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml
+</IfModule>
+
+Options -Indexes

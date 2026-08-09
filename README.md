@@ -29,8 +29,12 @@ npm run build
 
 ## 公開
 
-ビルド成果物 `dist/` を Cloudflare Workers の静的アセットとして配信する。
-サーバー処理は持たず、`wrangler.jsonc` に `main` を指定していない。
+ビルド成果物 `dist/` を Xserver のサブドメイン `tools.vrceve.com` の
+`/thumbnail/` 配下へ FTP で配置する。公開URLは `https://tools.vrceve.com/thumbnail/`。
+サーバー処理は持たず、静的ファイルのみを配信する。
+
+サブディレクトリ配信のため `vite.config.ts` で `base: '/thumbnail/'` を指定している。
+手順と注意点は `docs/deployment.md` を参照する。
 
 ## 正本の所在
 
@@ -57,7 +61,8 @@ npm run build
 | --- | --- | --- |
 | `src/` | Webアプリの実装 | ユーザー画像を通信・永続化する処理を追加しない |
 | `tests/` | 単体テスト | `src/` と同じ責務単位で配置する |
-| `public/` | ビルドを介さず配信するファイル | 配信ヘッダは `public/_headers` が正本 |
+| `public/` | ビルドを介さず配信するファイル | アプリ固有の配信ヘッダは `public/.htaccess` が正本 |
+| `deploy/host-root/` | `tools.vrceve.com` のドキュメントルートへ置くファイル | ツール一覧ページ、共通ヘッダ、`robots.txt`、`sitemap.xml`。ホスト単位でしか効かないため `dist/` には含めない |
 | `LICENSE` | ソースコードの利用条件（MIT） | 利用規約の記述と矛盾させない |
 | `package-lock.json` | npm依存関係の解決結果 | `package.json` と同じ変更で更新する |
 | `dist/` | ビルド生成物 | Git管理せず、直接編集しない |
