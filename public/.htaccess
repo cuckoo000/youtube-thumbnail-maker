@@ -14,12 +14,11 @@
 </IfModule>
 
 # ファイル名にハッシュが付くビルド成果物のみ長期キャッシュする。
+<IfModule mod_setenvif.c>
+  SetEnvIf Request_URI "^/thumbnail/assets/" VRCEVE_IMMUTABLE_ASSET=1
+</IfModule>
 <IfModule mod_headers.c>
-  <FilesMatch "\.(js|css|svg|woff2)$">
-    <If "%{REQUEST_URI} =~ m#^/thumbnail/assets/#">
-      Header always set Cache-Control "public, max-age=31536000, immutable"
-    </If>
-  </FilesMatch>
+  Header always set Cache-Control "public, max-age=31536000, immutable" env=VRCEVE_IMMUTABLE_ASSET
 </IfModule>
 
 # index.html はキャッシュさせず、デプロイ直後の参照を確実にする。

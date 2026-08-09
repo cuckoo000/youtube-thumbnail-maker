@@ -14,8 +14,10 @@
 </IfModule>
 
 # FTPデプロイが残す .ftp-deploy-*-state.json などのドットファイルを公開しない。
-<FilesMatch "^\.">
-  Require all denied
-</FilesMatch>
+<IfModule mod_authz_core.c>
+  <FilesMatch "^\.">
+    Require all denied
+  </FilesMatch>
+</IfModule>
 
 Options -Indexes
