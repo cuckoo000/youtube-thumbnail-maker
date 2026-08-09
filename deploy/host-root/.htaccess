@@ -13,4 +13,9 @@
   AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml
 </IfModule>
 
+# FTPデプロイが残す .ftp-deploy-*-state.json などのドットファイルを公開しない。
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
 Options -Indexes
