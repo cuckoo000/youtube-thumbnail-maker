@@ -9,19 +9,15 @@ export type ShareResult =
   | { ok: true }
   | { ok: false; reason: 'canceled' | 'failed' }
 
-/** Xの投稿画面へ渡す本文。画像添付時はurl欄が無視される端末があるためURLも本文に含める。 */
+/** Xの投稿画面へ渡す本文。挨拶・URL・ハッシュタグを行で分ける。 */
 export function buildShareText(): string {
   const hashtags = HASHTAGS.map((tag) => `#${tag}`).join(' ')
-  return `${MESSAGE} ${hashtags}\n${TOOL_URL}`
+  return `${MESSAGE}\n${TOOL_URL}\n${hashtags}`
 }
 
-/** 画像を添付できない環境向けのWeb Intent URL。 */
+/** 画像を添付できない環境向けのWeb Intent URL。改行を保つためurl/hashtags欄は使わない。 */
 export function buildIntentUrl(): string {
-  const params = new URLSearchParams({
-    text: MESSAGE,
-    url: TOOL_URL,
-    hashtags: HASHTAGS.join(','),
-  })
+  const params = new URLSearchParams({ text: buildShareText() })
   return `https://x.com/intent/tweet?${params.toString()}`
 }
 
