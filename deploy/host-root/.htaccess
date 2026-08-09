@@ -1,6 +1,13 @@
 # tools.vrceve.com ドキュメントルートの共通配信設定（正本）。
 # 各ツールは自分のディレクトリの .htaccess で必要な差分だけを上書きする。
 
+# Xserverの仕様上 vrceve.com/tools.vrceve.com/ でも同じ実体が見えるため、正規ホストへ寄せる。
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} !^tools\.vrceve\.com$ [NC]
+  RewriteRule ^(.*)$ https://tools.vrceve.com/$1 [R=301,L]
+</IfModule>
+
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "no-referrer"
