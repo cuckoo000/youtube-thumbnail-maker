@@ -1,6 +1,6 @@
-# YouTube Thumbnail Maker
+# 例のサムネメーカー（youtube-thumbnail-maker）
 
-画像と短い見出しから、YouTube向けの1280×720サムネイルをブラウザ内で生成するWebアプリ。
+YouTubeでよく見る、あのデカ文字サムネイル（1280×720）をブラウザ内で生成するWebアプリ。
 
 ## 目的
 

@@ -7,21 +7,24 @@
     <meta name="robots" content="index, follow" />
     <meta
       name="description"
-      content="画像と見出しを入れるだけで、YouTube向けの1280×720サムネイルを作れる無料ツール。画像はブラウザ内だけで処理し、サーバーへ送信しません。"
+      content="YouTubeでよく見る、あのデカ文字サムネイルを作れる無料ツール。画像はブラウザ内で処理し、どこにも送信しません。1280×720のPNGが30秒で完成します。"
     />
-    <title>YouTube サムネイルメーカー | 画像を送信しない無料サムネ作成ツール</title>
+    <title>例のサムネメーカー | YouTubeでよく見るあのサムネイルを無料作成</title>
 
     <!-- 公開URLを変える場合は canonical / og:url / og:image と vite.config.ts の base を書き換える -->
     <link rel="canonical" href="https://tools.vrceve.com/thumbnail/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="YouTube サムネイルメーカー" />
+    <meta property="og:site_name" content="例のサムネメーカー" />
     <meta property="og:locale" content="ja_JP" />
-    <meta property="og:title" content="YouTube サムネイルメーカー" />
+    <meta
+      property="og:title"
+      content="例のサムネメーカー | YouTubeでよく見る、あのサムネ。"
+    />
     <meta
       property="og:description"
-      content="画像と見出しを入れるだけで、YouTube向けの1280×720サムネイルを作れる無料ツール。画像はブラウザ内だけで処理し、サーバーへ送信しません。"
+      content="YouTubeでよく見る、あのデカ文字サムネイルを作れる無料ツール。画像はブラウザ内で処理し、どこにも送信しません。1280×720のPNGが30秒で完成します。"
     />
     <meta property="og:url" content="https://tools.vrceve.com/thumbnail/" />
     <meta
@@ -41,7 +44,8 @@
   <body>
     <div id="app">
       <header class="app-header">
-        <h1 class="app-title">YouTube サムネイルメーカー</h1>
+        <h1 class="app-title">例のサムネメーカー</h1>
+        <p class="app-tagline">YouTubeでよく見る、あのサムネ。</p>
         <p class="app-note">
           画像と文字はブラウザ内だけで処理し、サーバーへ送信しません。
         </p>
@@ -148,7 +152,7 @@
                   id="line2-lead-input"
                   type="text"
                   maxlength="30"
-                  placeholder="例: Youtube"
+                  placeholder="例: 例の"
                 />
               </div>
 
@@ -160,7 +164,7 @@
                   id="line2-tail-input"
                   type="text"
                   maxlength="30"
-                  placeholder="例: サムネイルメーカー"
+                  placeholder="例: サムネメーカー"
                 />
               </div>
 
