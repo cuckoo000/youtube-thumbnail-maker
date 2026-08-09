@@ -215,6 +215,11 @@ body {
   width: 100%;
 }
 
+/* 広告が配信されなかったときに「広告」ラベルと空白だけが残らないようにする。 */
+.ad-slot:has(ins[data-ad-status='unfilled']) {
+  display: none;
+}
+
 .footer-links {
   display: flex;
   flex-wrap: wrap;
